@@ -1,0 +1,88 @@
+﻿@model IEnumerable<awesomeBlog.Models.Article>
+
+@{
+    ViewBag.Title = "Blogposts";
+    Layout = "~/Views/Shared/_layoutDashboard.cshtml";
+}
+
+<h2>BlogPosts</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            Date Posted
+        </th>
+        <th>
+            Title
+        </th>
+        <th>
+            Author
+        </th>
+        <th>
+            Picture
+        </th>
+        <th>
+            Body
+        </th>
+        <th>
+            Negative Points
+        </th>
+        <th>
+            Positive Points
+        </th>
+        <th>
+            Tags
+        </th>
+        <th>
+            Views
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @item.ArticleDate
+        </td>
+        <td>
+            @item.ArticleTitle
+        </td>
+        <td>
+            @item.ArticleCreator
+        </td>
+        <td>
+            @item.ArticlePicture
+        </td>
+        <td>
+             @if(item.ArticleBody.Length > 100){
+            <small>@item.ArticleBody.Substring(0,100)...</small>
+            }
+            else
+            {
+                <small>@item.ArticleBody</small>
+            }
+        </td>
+        <td>
+            @item.ArticleNegativeAppeal
+        </td>
+                <td>
+            @item.ArticlePositiveAppeal
+        </td>
+                <td>
+            @item.ArticleTags
+        </td>
+                <td>
+            @item.ArticleViews
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ArticleID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ArticleID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ArticleID })
+        </td>
+    </tr>
+}
+
+</table>

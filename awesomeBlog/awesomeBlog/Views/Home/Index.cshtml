@@ -1,0 +1,71 @@
+﻿@model IEnumerable<awesomeBlog.Models.Article>
+
+@{
+    ViewBag.Title = "Awesome Blog";    
+}
+
+<h2 style ="text-align:center">Ex.] Blogster</h2>
+@foreach (var article in Model)
+{ 
+    <section>
+        @if (!string.IsNullOrEmpty(article.ArticlePicture))
+        {
+            <div>
+            <img src="@article.ArticlePicture" height ="200" width ="250" />
+            </div>
+        }
+
+        <h1><div>@article.ArticleTitle</div></h1>
+        <small>
+            Date Posted: @article.ArticleDate
+            Article Owner: @article.ArticleCreator
+        </small>
+
+        <div style ="margin:0 30% 0 30%">
+            @article.ArticleBody
+            <br />               
+        </div>
+        <div>
+            <small>
+                @article.ArticlePositiveAppeal people approved this
+                <br />
+                <a href="@Url.Action("Rating","HomeController",new{id=article.ArticleID})">
+                    approve!
+                </a>               
+            </small>
+            <br />
+            <div style ="font-family:'Times New Roman'; color:red">Comments:</div>
+        </div>
+        <br />
+        <div>
+            <div class="comment">
+                @foreach (var comment in article.Comments)
+                {
+                    <div>
+                        @comment.CommentCreator posted on @comment.CommentDate
+                        <br />
+                        @comment.CommentBody
+                        <br />
+                    </div> 
+                    <br />
+                }
+                <br />
+                Write a comment!
+                @using (Html.BeginForm("Comment", "Home", new { id = article.ArticleID }))
+                {
+                    <label for ="author">author</label>
+                    <input type="text" name ="author" />
+                    <br />
+                    <label for ="body">comment</label>
+                    <textarea name ="body"></textarea>
+                    <br />
+                    <input type ="submit" value ="Add Comment" />
+                 }
+            </div>
+        </div>
+        <h4>
+               -----------------------
+            <br />
+        </h4>
+    </section>
+}

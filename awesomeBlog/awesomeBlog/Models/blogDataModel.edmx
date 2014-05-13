@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="myBlogModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="myBlogModelStoreContainer">
+          <EntitySet Name="Articles" EntityType="myBlogModel.Store.Articles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Comments" EntityType="myBlogModel.Store.Comments" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Comments_Articles" Association="myBlogModel.Store.FK_Comments_Articles">
+            <End Role="Articles" EntitySet="Articles" />
+            <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Articles">
+          <Key>
+            <PropertyRef Name="ArticleID" />
+          </Key>
+          <Property Name="ArticleID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ArticleTitle" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="ArticleBody" Type="text" Nullable="false" />
+          <Property Name="ArticleDate" Type="date" Nullable="false" />
+          <Property Name="ArticleCreator" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="ArticlePositiveAppeal" Type="int" Nullable="false" />
+          <Property Name="ArticleNegativeAppeal" Type="int" Nullable="false" />
+          <Property Name="ArticlePicture" Type="nvarchar" MaxLength="500" />
+          <Property Name="ArticleTags" Type="nvarchar" MaxLength="500" />
+          <Property Name="ArticleViews" Type="int" />
+        </EntityType>
+        <EntityType Name="Comments">
+          <Key>
+            <PropertyRef Name="CommentID" />
+          </Key>
+          <Property Name="CommentID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ArticalID" Type="int" Nullable="false" />
+          <Property Name="CommentBody" Type="nvarchar" Nullable="false" MaxLength="500" />
+          <Property Name="CommentCreator" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="CommentDate" Type="date" Nullable="false" />
+          <Property Name="CommentRating" Type="int" />
+        </EntityType>
+        <Association Name="FK_Comments_Articles">
+          <End Role="Articles" Type="myBlogModel.Store.Articles" Multiplicity="1" />
+          <End Role="Comments" Type="myBlogModel.Store.Comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Articles">
+              <PropertyRef Name="ArticleID" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="ArticalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="myBlogModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="myBlogEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Articles" EntityType="myBlogModel.Article" />
+          <EntitySet Name="Comments" EntityType="myBlogModel.Comment" />
+          <AssociationSet Name="FK_Comments_Articles" Association="myBlogModel.FK_Comments_Articles">
+            <End Role="Articles" EntitySet="Articles" />
+            <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Article">
+          <Key>
+            <PropertyRef Name="ArticleID" />
+          </Key>
+          <Property Name="ArticleID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="ArticleTitle" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="ArticleBody" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="ArticleDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ArticleCreator" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="ArticlePositiveAppeal" Type="Int32" Nullable="false" />
+          <Property Name="ArticleNegativeAppeal" Type="Int32" Nullable="false" />
+          <Property Name="ArticlePicture" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="ArticleTags" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="ArticleViews" Type="Int32" />
+          <NavigationProperty Name="Comments" Relationship="myBlogModel.FK_Comments_Articles" FromRole="Articles" ToRole="Comments" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="CommentID" />
+          </Key>
+          <Property Name="CommentID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="ArticalID" Type="Int32" Nullable="false" />
+          <Property Name="CommentBody" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="CommentCreator" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="CommentDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CommentRating" Type="Int32" />
+          <NavigationProperty Name="Article" Relationship="myBlogModel.FK_Comments_Articles" FromRole="Comments" ToRole="Articles" />
+        </EntityType>
+        <Association Name="FK_Comments_Articles">
+          <End Role="Articles" Type="myBlogModel.Article" Multiplicity="1" />
+          <End Role="Comments" Type="myBlogModel.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Articles">
+              <PropertyRef Name="ArticleID" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="ArticalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="myBlogModelStoreContainer" CdmEntityContainer="myBlogEntities">
+          <EntitySetMapping Name="Articles">
+            <EntityTypeMapping TypeName="myBlogModel.Article">
+              <MappingFragment StoreEntitySet="Articles">
+                <ScalarProperty Name="ArticleID" ColumnName="ArticleID" />
+                <ScalarProperty Name="ArticleTitle" ColumnName="ArticleTitle" />
+                <ScalarProperty Name="ArticleBody" ColumnName="ArticleBody" />
+                <ScalarProperty Name="ArticleDate" ColumnName="ArticleDate" />
+                <ScalarProperty Name="ArticleCreator" ColumnName="ArticleCreator" />
+                <ScalarProperty Name="ArticlePositiveAppeal" ColumnName="ArticlePositiveAppeal" />
+                <ScalarProperty Name="ArticleNegativeAppeal" ColumnName="ArticleNegativeAppeal" />
+                <ScalarProperty Name="ArticlePicture" ColumnName="ArticlePicture" />
+                <ScalarProperty Name="ArticleTags" ColumnName="ArticleTags" />
+                <ScalarProperty Name="ArticleViews" ColumnName="ArticleViews" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comments">
+            <EntityTypeMapping TypeName="myBlogModel.Comment">
+              <MappingFragment StoreEntitySet="Comments">
+                <ScalarProperty Name="CommentID" ColumnName="CommentID" />
+                <ScalarProperty Name="ArticalID" ColumnName="ArticalID" />
+                <ScalarProperty Name="CommentBody" ColumnName="CommentBody" />
+                <ScalarProperty Name="CommentCreator" ColumnName="CommentCreator" />
+                <ScalarProperty Name="CommentDate" ColumnName="CommentDate" />
+                <ScalarProperty Name="CommentRating" ColumnName="CommentRating" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

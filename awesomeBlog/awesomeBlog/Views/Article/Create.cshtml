@@ -1,0 +1,96 @@
+﻿@model awesomeBlog.Models.Article
+
+@{
+    ViewBag.Title = "CreateNewPost";
+    Layout = "~/Views/Shared/_layoutDashboard.cshtml";
+}
+
+<h2>Create New Post</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Article</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ArticleTitle)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ArticleTitle)
+            @Html.ValidationMessageFor(model => model.ArticleTitle)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ArticleBody)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.ArticleBody)
+            @Html.ValidationMessageFor(model => model.ArticleBody)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ArticleDate)
+        </div>
+        <div class="editor-field">
+            @Html.TextBox("Article Date", DateTime.Now)
+            @Html.ValidationMessageFor(model => model.ArticleDate)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ArticleCreator)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ArticleCreator)
+            @Html.ValidationMessageFor(model => model.ArticleCreator)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ArticlePositiveAppeal)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ArticlePositiveAppeal)
+            @Html.ValidationMessageFor(model => model.ArticlePositiveAppeal)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ArticleNegativeAppeal)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ArticleNegativeAppeal)
+            @Html.ValidationMessageFor(model => model.ArticleNegativeAppeal)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ArticlePicture)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ArticlePicture)
+            @Html.ValidationMessageFor(model => model.ArticlePicture)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ArticleTags)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ArticleTags)
+            @Html.ValidationMessageFor(model => model.ArticleTags)
+        </div>
+
+<!-- noooo BEWARE MY COMMENTING POWAH --> 
+        @Html.Hidden("ArticleViews" , 0)
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
